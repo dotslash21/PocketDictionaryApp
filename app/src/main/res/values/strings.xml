@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">Pocket Dictionary</string>
+
+    <string name="search">Search</string>
+    <string name="search_text_hint">Enter keyword to search</string>
+    <string name="logo_description_string">Pocket Dictionary Logo</string>
+
+    <string name="word_number_text">[%d]</string>
+    <string name="origin_text">Origin: %s</string>
+
+    <string name="definition_text">Definition: %s</string>
+    <string name="example_text">Example: %s</string>
+
+    <string name="dummy_word">word</string>
+    <string name="dummy_word_phonetic">/wərd/</string>
+    <string name="dummy_word_origin">Origin: Old English, of Germanic origin; related to Dutch woord
+        and German Wort, from an Indo-European root shared by Latin verbum ‘word’.</string>
+
+    <string name="about">About</string>
+    <string name="about_body_string">This is a simple dictionary app made for Google\'s #30daysofkotlin challenge. I learned about many amazing features of kotlin during the challenge used some of them in building this app.</string>
+    <string name="github_repo_title">GitHub Repository:</string>
+    <string name="github_repo_link">https://github.com/dotslash21/PocketDictionaryApp</string>
+</resources>
