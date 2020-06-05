@@ -21,16 +21,25 @@ class TitleViewModel : ViewModel() {
     val onErrorEvent: LiveData<ErrorType>
         get() = _onErrorEvent
 
+    /**
+     * Function to trigger the search event.
+     */
     fun onSearch() {
         if (inputValidation()) {
             _onSearchEvent.value = true
         }
     }
 
+    /**
+     * Function to turn off the search event if the required task has been performed.
+     */
     fun onSearchComplete() {
         _onSearchEvent.value = false
     }
 
+    /**
+     * Function to validate the searchEditText string and trigger error event.
+     */
     private fun inputValidation(): Boolean {
         // Check if input is empty
         if (searchWord.value == null || searchWord.value!!.isEmpty()) {
@@ -52,6 +61,9 @@ class TitleViewModel : ViewModel() {
         return true
     }
 
+    /**
+     * Function to turn off the error event if the required task has been performed.
+     */
     fun onErrorEventHandled() {
         _onErrorEvent.value = null
     }

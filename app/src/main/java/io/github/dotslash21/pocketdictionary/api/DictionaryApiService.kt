@@ -45,6 +45,9 @@ interface DictionaryApiService {
     fun getDefinitions(@Path("searchWord") word: String): Deferred<List<WordDefinition>>
 }
 
+/**
+ * Singleton class for the Dictionary API service
+ */
 object DictionaryApi {
     val retrofitService: DictionaryApiService by lazy {
         retrofit.create(DictionaryApiService::class.java)

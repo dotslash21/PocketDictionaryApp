@@ -2,6 +2,8 @@ package io.github.dotslash21.pocketdictionary.api
 
 import com.squareup.moshi.Json
 
+// POJO classes for the https://dictionaryapi.dev/ json result.
+
 data class Definition(
     @Json(name = "definition") val definition: String,
     @Json(name = "example") val example: String = "",

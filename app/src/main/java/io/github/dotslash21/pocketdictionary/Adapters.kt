@@ -16,6 +16,9 @@ import io.github.dotslash21.pocketdictionary.api.WordDefinition
 import io.github.dotslash21.pocketdictionary.result.DictionaryApiStatus
 import java.lang.reflect.Type
 
+/*
+* Adapter for wordDefinitionsRecyclerView
+*/
 class WordDefinitionsAdapter :
     RecyclerView.Adapter<WordDefinitionsAdapter.WordDefinitionViewHolder>() {
     var data = listOf<WordDefinition>()
@@ -24,7 +27,7 @@ class WordDefinitionsAdapter :
             notifyDataSetChanged()
         }
 
-    // Create the parent view pool
+    // Create the parent view pool to share it with the child RecyclerViews
     private val viewPool = RecyclerView.RecycledViewPool()
 
     override fun getItemCount() = data.size
@@ -68,6 +71,7 @@ class WordDefinitionsAdapter :
             wordIdTextView.text = wordNumberTextFormatter(position, itemView.resources)
             wordTextView.text = item.word
 
+            // Hide the view if phonetic field is empty otherwise show it.
             if (item.phonetic.isEmpty()) {
                 wordPhoneticTextView.visibility = View.GONE
             } else {
@@ -75,6 +79,7 @@ class WordDefinitionsAdapter :
             }
             wordPhoneticTextView.text = item.phonetic
 
+            // Hide the view if origin field is empty otherwise show it.
             if (item.origin.isEmpty()) {
                 wordOriginTextView.visibility = View.GONE
             } else {
@@ -82,6 +87,7 @@ class WordDefinitionsAdapter :
             }
             wordOriginTextView.text = originTextFormatter(item.origin, itemView.resources)
 
+            // Create the child RecyclerView
             meaningsRecyclerView.apply {
                 layoutManager = LinearLayoutManager(
                     meaningsRecyclerView.context,
@@ -95,6 +101,10 @@ class WordDefinitionsAdapter :
     }
 }
 
+
+/*
+* Adapter for meaningsRecyclerView
+*/
 class MeaningsAdapter(
     private val data: List<Meaning>,
     private val viewPool: RecyclerView.RecycledViewPool
@@ -134,6 +144,8 @@ class MeaningsAdapter(
             viewPool: RecyclerView.RecycledViewPool
         ) {
             partOfSpeechTextView.text = item.partOfSpeech
+
+            // Create the child RecyclerView
             definitionsRecyclerView.apply {
                 layoutManager = LinearLayoutManager(
                     definitionsRecyclerView.context,
@@ -153,6 +165,9 @@ class MeaningsAdapter(
     }
 }
 
+/*
+* Adapter for definitionsRecyclerView
+*/
 class DefinitionsAdapter(private val data: List<Definition>) :
     RecyclerView.Adapter<DefinitionsAdapter.DefinitionViewHolder>() {
     override fun getItemCount() = data.size
@@ -245,20 +260,28 @@ class SkipBadListObjectsAdapterFactory : JsonAdapter.Factory {
     }
 }
 
+/*
+* Binding adapter to bind with statusImageView@fragment_search_result
+*/
 @BindingAdapter("dictionaryApiStatus")
 fun bindStatus(
     statusImageView: ImageView,
     status: DictionaryApiStatus?
 ) {
     when (status) {
+        // Show loading spinner
         DictionaryApiStatus.LOADING -> {
             statusImageView.visibility = View.VISIBLE
             statusImageView.setImageResource(R.drawable.loading_animation)
         }
+
+        // Show network error
         DictionaryApiStatus.ERROR -> {
             statusImageView.visibility = View.VISIBLE
             statusImageView.setImageResource(R.drawable.ic_connection_error)
         }
+
+        // Hide the ImageView
         DictionaryApiStatus.DONE -> {
             statusImageView.visibility = View.GONE
         }

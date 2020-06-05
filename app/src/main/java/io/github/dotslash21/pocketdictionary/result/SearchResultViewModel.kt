@@ -34,7 +34,7 @@ class SearchResultViewModel(searchWord: String) : ViewModel() {
     private val coroutineScope = CoroutineScope(viewModelJob + Dispatchers.Main)
 
     /**
-     * Call getWordDefinitions() on init so we can display status immediately.
+     * Call getWordDefinitions() on init so the fragment can display status immediately.
      */
     init {
         getWordDefinitions(searchWord)

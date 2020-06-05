@@ -11,7 +11,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // Navigation codes
+        // Making MainActivity host the navigation
         val navController = this.findNavController(R.id.appNavHostFragment)
         NavigationUI.setupActionBarWithNavController(this, navController)
     }
