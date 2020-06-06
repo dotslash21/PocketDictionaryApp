@@ -9,20 +9,26 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import retrofit2.HttpException
 
 enum class DictionaryApiStatus { LOADING, ERROR, DONE }
 
 class SearchResultViewModel(searchWord: String) : ViewModel() {
     // The internal MutableLiveData that stores the status of the most recent request
     private val _status = MutableLiveData<DictionaryApiStatus>()
-
     // The external immutable LiveData for the request status
     val status: LiveData<DictionaryApiStatus>
         get() = _status
 
+    // The internal MutableLiveData that stores the error message if occurred
+    private val _errorMessage = MutableLiveData<String>()
+
+    // The external immutable LiveData for the error message
+    val errorMessage: LiveData<String>
+        get() = _errorMessage
+
     // The internal MutableLiveData String that stores the most recent response
     private val _definitions = MutableLiveData<List<WordDefinition>>()
-
     // The external immutable LiveData for the response String
     val definitions: LiveData<List<WordDefinition>>
         get() = _definitions
@@ -56,10 +62,14 @@ class SearchResultViewModel(searchWord: String) : ViewModel() {
                 _definitions.value = listResult
 
                 _status.value = DictionaryApiStatus.DONE
+            } catch (e: HttpException) {
+                _definitions.value = ArrayList()
+                _status.value = DictionaryApiStatus.ERROR
+                _errorMessage.value = e.message
             } catch (e: Exception) {
                 _definitions.value = ArrayList()
-
                 _status.value = DictionaryApiStatus.ERROR
+                _errorMessage.value = "Internal application error! contact the developer."
             }
         }
     }
